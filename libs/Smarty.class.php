@@ -4,7 +4,11 @@ if (!defined('SMARTY_DIR')) {
     define('SMARTY_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 }
 
-define("TEMPLATE_LITE_DIR", APPPATH . 'libraries/template_lite/src/');
+// If this isn't specifically defined it probably is up one level then into the src directory ../src
+if (!defined('TEMPLATE_LITE_DIR')) {
+    define("TEMPLATE_LITE_DIR", realpath(SMARTY_DIR . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src') . DIRECTORY_SEPARATOR);
+}
+
 require_once (TEMPLATE_LITE_DIR . "class.template.php");
 
 class Smarty extends Template_Lite {
