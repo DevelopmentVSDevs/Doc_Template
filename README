@@ -1,5 +1,8 @@
 A Smarty v3 compatible templating library, based on Template Lite
 
+* This is not intended to be a full replacement, just implement commonly used
+* functions {$var} {foreach} plugins | modifiers etc
+
 Originally Documentopia.com was using Smarty2 and we were able to switch
 between template lite and smarty depending on our caching requirements.   
 
