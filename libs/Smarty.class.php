@@ -40,8 +40,8 @@ class Smarty extends Template_Lite {
     }
     
     function _get_vars($var) {
-        if (isset($this->_vars[$var])) return($this->_vars[$var]);
-        else return(false);
+        if (isset($this->_vars[$var])) return ($this->_vars[$var]);
+        else return (false);
     }
     
     
@@ -49,16 +49,6 @@ class Smarty extends Template_Lite {
     
     function isCached($template, $cache_id = null, $compile_id = null) {
         
-    }
-    
-    
-    function createData($parent = null) {
-    }
-    function createTemplate($template, $cache_id = null, $compile_id = null, $parent = null) {
-    }
-    function enableSecurity() {
-    }
-    function disableSecurity() {
     } */
     
     function setTemplateDir($template_dir) {
@@ -72,12 +62,46 @@ class Smarty extends Template_Lite {
     function templateExists($resource_name) {
         return (parent::template_exists($resource_name));
     }
-    function loadPlugin($plugin_name, $check = true) {
-        echo "load plugin XXX";
-    }
     
-    function registerPlugin($type, $tag, $callback, $cacheable = true, $cache_attr = array()) {
-        echo "registerPlugin XXX";
+    function loadPlugin($plugin_name, $check = true) {
+        
+        
+        if ($check && (is_callable($plugin_name) || class_exists($plugin_name, false))) return true;
+        // Plugin name is expected to be: Smarty_[Type]_[Name]
+        $_plugin_name = strtolower($plugin_name);
+        $_name_parts = explode('_', $_plugin_name, 3);
+        
+        if (count($_name_parts) < 3 || $_name_parts[0] !== 'smarty') {
+            return false;
+        }
+        
+        
+        // if type is "internal", get plugin from sysplugins
+        if ($_name_parts[1] == 'internal') {
+            $file = SMARTY_SYSPLUGINS_DIR . $_plugin_name . '.php';
+            if (file_exists($file)) {
+                require_once ($file);
+                return $file;
+            } else {
+                return false;
+            }
+        }
+        // plugin filename is expected to be: [type].[name].php
+        $_plugin_filename = "{$_name_parts[1]}.{$_name_parts[2]}.php";
+        // loop through plugin dirs and find the plugin
+        foreach((array)$this->plugins_dir as $_plugin_dir) {
+            if (strpos('/\\', substr($_plugin_dir, -1)) === false) {
+                $_plugin_dir.= DS;
+            }
+            $file = $_plugin_dir . $_plugin_filename;
+            if (file_exists($file)) {
+                require_once ($file);
+                return $file;
+            }
+        }
+        // no plugin loaded
+        return false;
+        
     }
     
     
@@ -149,34 +173,6 @@ class Smarty extends Template_Lite {
         
     }
     
-    /*
-    function registerObject($object_name, $object_impl, $allowed = array(), $smarty_args = true, $block_methods = array()) {
-    }
-    */
-    
-    
-    /*
-    function setExceptionHandler($handler) {
-    }
-    */
-    
-    
-    /*
-    function assignGlobal($varname, $value = null, $nocache = false) {
-    }
-    */
-    
-    
-    /*
-    function getGlobal($varname = null) {
-    }
-    function getRegisteredObject($name) {
-    }
-    function getDebugTemplate() {
-    }
-    function setDebugTemplate($tpl_name) {
-    }
-    */
     
     
     
@@ -190,44 +186,6 @@ class Smarty extends Template_Lite {
         
     }
     
-    function clearAllCache($exp_time = null, $type = null) {
-        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
-        exit(0);
-    }
-    function clearCache($template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null) {
-        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
-        exit(0);
-    }
-    
-    
-    /*
-    function registerResource($resource_type, $function_names) {
-    }
-    function registerDefaultPluginHandler($function_name) {
-    }
-    function registerDefaultTemplateHandler($function_name) {
-    }
-    */
-    
-    function unregisterPlugin($type, $tag) {
-    }
-    /*
-    function unregisterObject($object_name) {
-    }
-    */
-    function unregisterFilter($type, $function_name) {
-    }
-    /*
-    function unregisterResource($resource_type) {
-    }
-    */
-    
-    /*
-    function compileAllTemplates($extention = '.tpl', $force_compile = false, $time_limit = 0, $max_errors = null) {
-    }
-    function clearCompiledTemplate($resource_name = null, $compile_id = null, $exp_time = null) {
-    }
-    */
     
     
     function setCacheId($id) {
@@ -299,37 +257,106 @@ class Smarty extends Template_Lite {
     }
     
     
-    
-    /*
-    $smarty->register->*
-    $smarty->unregister->*
-    $smarty->utility->*
-    $samrty->cache->*
-    
-    Haveallbeenchangedtolocalmethodcallssuch as:
-        
-        $smarty->clearAllCache() $smarty->registerFoo() $smarty->unregisterFoo() $smarty->testInstall()
-        
-        
-        
-        $smarty->registerFilter( . . .) $smarty->unregisterFilter( . . .)
-        
-        $smarty->registerPlugin( . . .) $smarty->unregisterPlugin( . . .) */
+    function clearAllCache($exp_time = null, $type = null) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    function clearCache($template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
     }
     
-    /*
-    class Template_Lite_Compiler2 extends Template_Lite_Compiler {
-    function Template_Lite_Compiler2() {
+    
+    function registerResource($resource_type, $function_names) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    function registerDefaultPluginHandler($function_name) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    function registerDefaultTemplateHandler($function_name) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    
+    function registerPlugin($type, $tag, $callback, $cacheable = true, $cache_attr = array()) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    
+    
+    function unregisterPlugin($type, $tag) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    function unregisterObject($object_name) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    function unregisterFilter($type, $function_name) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    function unregisterResource($resource_type) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    
+    function compileAllTemplates($extention = '.tpl', $force_compile = false, $time_limit = 0, $max_errors = null) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    function clearCompiledTemplate($resource_name = null, $compile_id = null, $exp_time = null) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    
+    function registerObject($object_name, $object_impl, $allowed = array(), $smarty_args = true, $block_methods = array()) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    
+    
+    function setExceptionHandler($handler) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    
+    
+    function assignGlobal($varname, $value = null, $nocache = false) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+    }
+    
+    
+    function getGlobal($varname = null) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    function getRegisteredObject($name) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    function getDebugTemplate() {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    function setDebugTemplate($tpl_name) {
+        echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
+        exit(0);
+        
+    }
+    
     
 }
-
-
-} */
-
-
-
-
-
 
 
 ?>
