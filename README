@@ -1,1 +1,22 @@
 A Smarty v3 compatible templating library, based on Template Lite
+
+Originally Documentopia.com was using Smarty2 and we were able to switch
+between template lite and smarty depending on our caching requirements.   
+
+Template Lite offered a smaller memory foot print with the exact same syntax
+we were already using with smarty.   When we migrated from an Internal MVC
+framework to Code Igniter we were unable to use Template Lite because it lacked
+the ability to use filters/plugins utilizing the array($this,"function") method.
+ 
+To futher complicate matters when Smarty3 came out the API was changed making
+Template Lite completely incompatible with Smarty3.
+
+For all intents and purposes Template Lite appeared dead on the development 
+front, but in 2011 TL2.11 was released so we diligently unpacked it and gave it
+a go - but as a diff confirmed there were actually no differences between 2.10
+and 2.11.  
+
+That is where this project was born - to extend the Template Lite Library to 
+support being a drop in replacement for the features of Smarty3 we use.
+
+

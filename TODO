@@ -1,0 +1,4 @@
+* Finish up Loaders
+* deal with the {nocache} problem 
+	(possibly declaring the whole template not cachable)
+* Possibly Completely Fork Template Lite removing the configuration options 
