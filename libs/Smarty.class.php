@@ -19,9 +19,8 @@ class Smarty extends Template_Lite {
     function Smarty() {
         $this->Template_Lite();
         
-        $this->compiler_file = TEMPLATE_LITE_DIR . '../libs/Smarty_Compiler.class.php';
+        $this->compiler_file = realpath(TEMPLATE_LITE_DIR . '../libs/Smarty_Compiler.class.php');
         $this->registerFilter('pre', array($this, 'smarty_prefilter_literalScriptAndStyle'));
-        
         
     }
     
@@ -186,7 +185,6 @@ class Smarty extends Template_Lite {
         if ($_ptr != null && $search_parents !== true) {
             echo "Template Lite: Unsupported " . __FILE__ . '-' . __LINE__;
             exit(0);
-            exit(0);
         }
         return (parent::get_template_vars($varname = null));
         
@@ -286,9 +284,9 @@ class Smarty extends Template_Lite {
         $this->plugins_dir = $dir;
     }
     
-    
+    // To further emulate Smarty3 if there are no literal's already we will literal the javascript to keep it being caught by the parser
     function smarty_prefilter_literalScriptAndStyle($tpl_source, $smarty) {
-        // To further emulate Smarty3 if there are no literal's already we will literal the javascript to keep it being caught by the parser
+        
         if (strpos($tpl_source, $this->left_delimiter . "literal" . $this->right_delimiter) === false) {
             $pattern[] = '~<script\b(?![^>]*smarty)(.*)</script>~siU';
             $replace[] = $this->left_delimiter . 'literal' . $this->right_delimiter . '<script$1 $2</script>' . $this->left_delimiter . ' /literal' . $this->right_delimiter;

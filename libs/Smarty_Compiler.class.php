@@ -8,7 +8,8 @@ class Smarty_Compiler extends Template_Lite_Compiler {
         $this->Template_Lite_compiler();
     }
     
-    
+
+    // This will be moved into the Template Lite When We Fork XXX    
     function _compile_file($file_contents) {
         $ldq = preg_quote($this->left_delimiter);
         $rdq = preg_quote($this->right_delimiter);
@@ -104,6 +105,7 @@ class Smarty_Compiler extends Template_Lite_Compiler {
     }
     
     
+    // This will be moved into the Template Lite When We Fork XXX    
     function _load_filters() {
         if (count($this->_plugins['prefilter']) > 0) {
             foreach($this->_plugins['prefilter'] as $filter_name => $prefilter) {
@@ -139,7 +141,7 @@ class Smarty_Compiler extends Template_Lite_Compiler {
     }
     
     
-    
+    // This will be moved into the Template Lite When We Fork XXX    
     function _get_plugin_dir($plugin_name) {
         //    echo "_get_plugin_dir ".$plugin_name."<br>";
         static $_path_array = null;
@@ -191,7 +193,7 @@ class Smarty_Compiler extends Template_Lite_Compiler {
         return $plugin_dir_path;
     }
     
-    
+    // This will be moved into the Template Lite When We Fork XXX    
     function _plugin_exists($function, $type) {
         // check for object functions
         if (isset($this->_plugins[$type][$function]) && is_array($this->_plugins[$type][$function]) && is_object($this->_plugins[$type][$function][0]) && method_exists($this->_plugins[$type][$function][0], $this->_plugins[$type][$function][1])) {
@@ -220,6 +222,7 @@ class Smarty_Compiler extends Template_Lite_Compiler {
         return false;
     }
     
+    // This will be moved into the Template Lite When We Fork XXX    
     function _compile_variable($variable)
     {
         $_result    = "";
