@@ -1,1 +1,8 @@
 .gitnoauto
+templates_c/*.php
+system/logs/*.php
+system/cache/*.php
+*.tar
+*.bz2
+*.ppx
+dwsync.xml
